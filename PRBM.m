@@ -1,5 +1,9 @@
 clear
 
+set(groot,'defaulttextinterpreter','latex');  
+set(groot, 'defaultAxesTickLabelInterpreter','latex');  
+set(groot, 'defaultLegendInterpreter','latex');
+
 % Spring constants
 syms K_t K_e 
 
@@ -40,37 +44,44 @@ dphi_3 = diff(phi_3, u_in)
 
 T_t = -4*K_t*phi_2
 T_e = -K_e*phi_3
+
 eq2 = F_in + T_t*dphi_2 + T_e*dphi_3
 
 F_in_sol = solve(eq2, F_in)
 
 
-
-
-b = 5e-3;
-h = 0.1e-3;
+% Flexure elements properties
+E_flexure = 179e9;
+b = 10e-3;
+h = 0.4e-3;
 I_value = b * h^3 / 12;
 
 % Parameter dictionary
-p_vars = [theta_20, l_t,  I_t,     E_t,   b_2,  K_e];
-p_vals = [0,        5e-3, I_value, 210e6, 0.02];
+p_vars = [theta_20, l_t,  I_t,     E_t,       b_2,  K_e];
+p_vals = [0,        10e-3, I_value, E_flexure, 0.1];
 p_vals0 = [p_vals, 0];
-p_vals1 = [p_vals, 1];
+p_vals1 = [p_vals, 1000];
 
 
-F_in_sol_no_spring = subs(F_in_sol, p_vars, p_vals0)
-F_in_sol_spring = subs(F_in_sol, p_vars, p_vals1)
-theta_2_sol = subs(theta_2_sol, p_vars, p_vals0)
+F_in_sol_no_spring = subs(F_in_sol, p_vars, p_vals0);
+F_in_sol_spring = subs(F_in_sol, p_vars, p_vals1);
+theta_2_sol = subs(theta_2_sol, p_vars, p_vals0);
 
+xmax = 0.3;
 figure(1), clf;
 tiledlayout(2,1)
 nexttile;
 hold on;
-fplot(F_in_sol_no_spring, [0, 0.2])
-fplot(F_in_sol_spring, [0, 0.2])
+grid on;
+fplot(6*F_in_sol_no_spring, [0, xmax])
+% fplot(6*F_in_sol_spring, [0, xmax])
+ylabel("$F$ Force")
 nexttile;
 hold on;
-fplot(theta_2_sol, [0, 0.2])
+grid on;
+fplot(theta_2_sol, [0, xmax])
+xlabel("$U$ displacement")
+ylabel("$\theta$ displacement")
 
 
 
