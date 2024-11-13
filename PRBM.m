@@ -42,7 +42,7 @@ phi_3 = L_2*(sin(theta_2_sol)-sin(theta_20))
 dphi_2 = diff(phi_2, u_in)
 dphi_3 = diff(phi_3, u_in)
 
-T_t = -4*K_t*phi_2
+T_t = -3*K_t*phi_2
 T_e = -K_e*phi_3
 
 eq2 = F_in + T_t*dphi_2 + T_e*dphi_3
@@ -74,7 +74,7 @@ nexttile;
 hold on;
 grid on;
 fplot(6*F_in_sol_no_spring, [0, xmax])
-% fplot(6*F_in_sol_spring, [0, xmax])
+fplot(6*F_in_sol_spring, [0, xmax])
 ylabel("$F$ Force")
 nexttile;
 hold on;
@@ -86,15 +86,45 @@ ylabel("$\theta$ displacement")
 
 
 
+%% Section for calculating needed power
+% Assumption, total energy remains unchanged
+
+syms m_legs m_body g H eta h_body h_legs d_torsion d_elastic
+
+h_body = 0;
+h_legs = 0.1;
+m_body = 0.5; %kg
+m_legs = 0.2; %kg
+H = 3.5; %m Desired height
+g = 9.81; %gravity
+eta = 0.9; % spring efficiency
+d_torsion = phi_2;
+d_elastic = phi_3;
 
 
+eq_energy = m_body*g*h_body + 6*(3*0.5*K_t*d_torsion^2*eta + 0.5*K_e*d_elastic^2*eta) == m_body*g*(H+h_legs) + m_legs*g*H;
+eq_energy = lhs(eq_energy) - rhs(eq_energy);
+eq_energy = subs(eq_energy, p_vars, p_vals1)
 
-
+xmax = 0.3;
+figure(1), clf;
+tiledlayout(2,1)
+nexttile;
+hold on;
+grid on;
+fplot(eq_energy, [0, xmax])
+ylabel("Energy")
+nexttile;
+hold on;
+grid on;
+fplot(theta_2_sol, [0, xmax])
+xlabel("$U$ displacement")
+ylabel("$\theta$ displacement")
 
 
 
 %[appendix]
 %---
 %[metadata:view]
-%   data: {"layout":"onright","rightPanelPercent":45.8}
+%   data: {"layout":"inline","rightPanelPercent":45.8}
 %---
