@@ -29,7 +29,7 @@ K_t = E_t * I_t / l_t;
 % Linear spring has no change in effective length as it is mounted slightly
 % offcenter due to needing to be attached to a body.
 
-eq1 = u_in == 2*L_2*(1-cos(theta_2))
+eq1 = u_in == 2*L_2*(cos(theta_20)-cos(theta_2))
 theta_2_sol = solve(eq1, theta_2);
 theta_2_sol = theta_2_sol(1)
 
@@ -79,13 +79,13 @@ hold on;
 grid on;
 fplot(F_in_sol_no_spring, [u_in0, xmax])
 fplot(F_in_sol_spring, [u_in0, xmax])
-ylim([0, 75])
+ylim([0, 70])
 xlim([xmin,xmax])
 ylabel("$F$ Force")
 nexttile;
 hold on;
 grid on;
-fplot(theta_2_sol, [xmin, xmax])
+fplot(theta_2_sol, [u_in0, xmax])
 xlim([xmin,xmax])
 xlabel("$U$ displacement")
 ylabel("$\theta$ displacement")
