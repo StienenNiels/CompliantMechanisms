@@ -27,7 +27,7 @@ for i = 1:length(fields)
             % Plot the data
             nexttile;
             plot(displacement, force);
-            title(['Plot for ', currentField]);
+            title(['Plot for ', m.(currentField).fileName]);
             xlabel('Displacement');
             ylabel('Force');
         % else

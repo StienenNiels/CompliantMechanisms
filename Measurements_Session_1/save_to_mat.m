@@ -27,7 +27,7 @@ for i = 1:length(fileList)
 
     % Store data and filename in the structure
     fieldName = sprintf('File_%d', i); % Create a unique field name
-    dataStruct.(fieldName).fileName = fileName;
+    dataStruct.(fieldName).fileName = strrep(fileName(1:end-4), '_', ' ');
     dataStruct.(fieldName).data = data;
 end
 
