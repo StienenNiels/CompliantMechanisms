@@ -18,21 +18,16 @@ for i = 1:length(fields)
     currentField = fields{i}; % Get the current field name
     if isfield(m.(currentField), 'data') % Check if 'data' field exists
         dataStruct = m.(currentField).data;
-        % Check if the required fields exist in the 'data' structure
-        % if isfield(dataStruct, 'Displacement_Plot0') && isfield(dataStruct, 'Force_Plot0')
-            % Extract data for plotting
-            displacement = dataStruct.Displacement_Plot0;
-            force = dataStruct.Force_Plot0;
-            
-            % Plot the data
-            nexttile;
-            plot(displacement, force);
-            title(['Plot for ', m.(currentField).fileName]);
-            xlabel('Displacement');
-            ylabel('Force');
-        % else
-            % disp(['Fields missing in ', currentField, '.data']);
-        % end
+        % Extract data for plotting
+        displacement = dataStruct.Displacement_Plot0;
+        force = dataStruct.Force_Plot0;
+        
+        % Plot the data
+        nexttile;
+        plot(displacement, force);
+        title(['Plot for ', m.(currentField).fileName]);
+        xlabel('Displacement');
+        ylabel('Force');
     else
         disp(['Field ', currentField, ' does not have a "data" sub-structure.']);
     end
