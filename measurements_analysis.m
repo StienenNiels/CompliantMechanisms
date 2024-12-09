@@ -6,7 +6,7 @@ m = measurements.dataStruct;
 fields = fieldnames(m); % Get all field names of the structure
 
 
-figure; clf; % Create a new figure for each plot
+figure(1); clf; % Create a new figure for each plot
 tiledlayout(3,4)
 for i = 1:length(fields)
     currentField = fields{i}; % Get the current field name
