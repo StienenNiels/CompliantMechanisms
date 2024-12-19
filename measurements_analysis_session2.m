@@ -16,12 +16,6 @@ for i = 1:length(fields)
         % Extract data for plotting
         displacement = dataStruct.Displacement_Plot0;
         force = dataStruct.Force_Plot0;
-        
-        % Plot the data
-        if endsWith(m.(currentField).fileName, '1')
-            nexttile;
-            hold on
-        end
 
         % Extract relevant components from the fileName
         tokens = regexp(m.(currentField).fileName, 'f(\d{2}) (\d{2}) d(\d{2})mm s(\d) r(\d)', 'tokens', 'once');
@@ -31,12 +25,22 @@ for i = 1:length(fields)
         spring = tokens{4};
         run = tokens{5};
 
-        plot(displacement, force, DisplayName=['Run ', run]);
-        if spring == '1'
-            title(['Flexures ', flexureXX, '-', flexureYY, '-', flexureXX, ', and displacement ', displacementZZ, 'mm, with spring']);
-        else
-            title(['Flexures ', flexureXX, '-', flexureYY, '-', flexureXX, ', and displacement ', displacementZZ, 'mm']);
+        if run == '1' && spring == '0'
+            nexttile;
+            hold on
         end
+
+        if spring == '1'
+            plot(displacement, force, DisplayName=['Run ', run, ' w/ spring']);
+        else
+            plot(displacement, force, DisplayName=['Run ', run]);
+        end
+        % plot(displacement, force, DisplayName=['Run ', run]);
+        % if spring == '1'
+        %     title(['Flexures ', flexureXX, '-', flexureYY, '-', flexureXX, ', and displacement ', displacementZZ, 'mm, with spring']);
+        % else
+            title(['Flexures ', flexureXX, '-', flexureYY, '-', flexureXX, ', and displacement ', displacementZZ, 'mm']);
+        % end
         xlabel('Displacement');
         ylabel('Force');
         grid on
